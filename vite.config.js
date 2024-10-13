@@ -29,7 +29,9 @@ export default defineConfig({
     build: {
         assetsDir: "static",
     },
-    plugins: [react()],
+    plugins: [
+        react()
+    ],
     resolve: {
         alias: {
             "@": path.resolve(__dirname, "./src"),
