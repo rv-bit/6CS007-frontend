@@ -1,9 +1,29 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import reactLogo from './assets/react.svg'
 import viteLogo from '/vite.svg'
+import axios from 'axios'
 
 function App() {
     const [count, setCount] = useState(0)
+
+    useEffect(() => {
+        console.log('mounted')
+
+        async function getUser() {
+            try {
+                const response = await axios.get('/api/test');
+                console.log(response);
+            } catch (error) {
+                console.error(error);
+            }
+        }
+
+        getUser();
+        
+        return () => {
+            console.log('unmounted')
+        }
+    }, [])
 
     return (
         <div className='bg-slate-400 flex justify-center items-center flex-col gap-5 h-screen w-screen'>
