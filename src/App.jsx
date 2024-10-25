@@ -4,14 +4,14 @@ import axios from 'axios'
 import reactLogo from './assets/react.svg'
 import viteLogo from '/vite.svg'
 
-import { signIn, signOut, signUp, useSession } from '@/lib/auth'
+import { authClient } from '@/lib/auth'
 
 function App() {
     const {
         data: session,
         loading,
         error,
-    } = useSession()
+    } = authClient.useSession()
 
     const [count, setCount] = useState(0)
 
@@ -59,7 +59,7 @@ function App() {
             </p>
 
             <button onClick={async() => {
-                await signIn.social({
+                await authClient.signIn.social({
                     provider: 'github'
                 })
             }} className='rounded-lg bg-blue-200 p-5'>
@@ -67,7 +67,7 @@ function App() {
             </button>
 
             <button onClick={async() => {
-                await signIn.social({
+                await authClient.signIn.social({
                     provider: 'google'
                 })
             }} className='rounded-lg bg-blue-200 p-5'>
@@ -75,7 +75,7 @@ function App() {
             </button>
 
             <button onClick={async() => {
-                await signOut()
+                await authClient.signOut()
             }} className='rounded-lg bg-blue-200 p-5'>
                 Sign Out
             </button>
