@@ -1,17 +1,27 @@
 import { useEffect, useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
 import axios from 'axios'
 
+import reactLogo from './assets/react.svg'
+import viteLogo from '/vite.svg'
+
+import { signIn, signOut, signUp, useSession } from '@/lib/auth'
+
 function App() {
+    const {
+        data: session,
+        loading,
+        error,
+    } = useSession()
+
     const [count, setCount] = useState(0)
 
     useEffect(() => {
-        console.log('mounted')
+        console.log('mounted', session);
 
         async function getUser() {
             try {
-                const response = await axios.get('/api/test');
+                const response = await axios.get('/api/v1/test', {
+                });
                 console.log(response);
             } catch (error) {
                 console.error(error);
@@ -47,6 +57,28 @@ function App() {
             <p className="read-the-docs">
                 Click on the Vite and React logos to learn more
             </p>
+
+            <button onClick={async() => {
+                await signIn.social({
+                    provider: 'github'
+                })
+            }} className='rounded-lg bg-blue-200 p-5'>
+                Sign In with GitHub
+            </button>
+
+            <button onClick={async() => {
+                await signIn.social({
+                    provider: 'google'
+                })
+            }} className='rounded-lg bg-blue-200 p-5'>
+                Sign In with Google
+            </button>
+
+            <button onClick={async() => {
+                await signOut()
+            }} className='rounded-lg bg-blue-200 p-5'>
+                Sign Out
+            </button>
         </div>
     )
 }
