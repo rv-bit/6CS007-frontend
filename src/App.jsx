@@ -20,8 +20,7 @@ function App() {
 
         async function getUser() {
             try {
-                const response = await axios.get('/api/v1/test', {
-                });
+                const response = await axios.get('/api/v1/test', {});
                 console.log(response);
             } catch (error) {
                 console.error(error);
