@@ -8,16 +8,13 @@ import { authClient } from '@/lib/auth'
 
 function App() {
     const {
-        data: session,
+        session: session,
         loading,
         error,
     } = authClient.useSession()
-
     const [count, setCount] = useState(0)
 
     useEffect(() => {
-        console.log('mounted', session);
-
         async function getUser() {
             try {
                 const response = await axios.get('/api/v1/test', {});
@@ -29,10 +26,16 @@ function App() {
 
         getUser();
         
-        return () => {
-            console.log('unmounted')
-        }
+        return () => {}
     }, [])
+
+    if (loading) {
+        return (
+            <>
+                <h1>Loading...</h1>
+            </>
+        )
+    }
 
     return (
         <div className='bg-slate-400 flex justify-center items-center flex-col gap-5 h-screen w-screen'>
@@ -57,27 +60,23 @@ function App() {
                 Click on the Vite and React logos to learn more
             </p>
 
-            <button onClick={async() => {
-                await authClient.signIn.social({
-                    provider: 'github'
-                })
-            }} className='rounded-lg bg-blue-200 p-5'>
-                Sign In with GitHub
-            </button>
-
-            <button onClick={async() => {
-                await authClient.signIn.social({
-                    provider: 'google'
-                })
-            }} className='rounded-lg bg-blue-200 p-5'>
-                Sign In with Google
-            </button>
-
-            <button onClick={async() => {
-                await authClient.signOut()
-            }} className='rounded-lg bg-blue-200 p-5'>
-                Sign Out
-            </button>
+            {session ? (
+                <>
+                    <button onClick={async() => {
+                        await authClient.signOut()
+                    }} className='rounded-lg bg-blue-200 p-5'>
+                        Sign Out
+                    </button>
+                </>
+            ) : (
+                <button onClick={async() => {
+                    await authClient.signIn.social({
+                        provider: 'github'
+                    })
+                }} className='rounded-lg bg-blue-200 p-5'>
+                    Sign In with GitHub
+                </button>
+            )}
         </div>
     )
 }
