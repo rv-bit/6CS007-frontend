@@ -29,13 +29,12 @@ const devConfig = {
 };
 
 const prodConfig = {
-    base: '/app/',
     server: {
         port: 5000,
         cors: true,
         proxy: {
             '/api': {
-                target: import.meta.env.VITE_API_URL,
+                target: process.env.VITE_API_URL,
                 changeOrigin: true,
                 secure: false,
                 ws: true,
