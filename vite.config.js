@@ -30,8 +30,6 @@ const devConfig = {
 
 const prodConfig = {
     server: {
-        port: 5000,
-        cors: true,
         proxy: {
             '/api': {
                 target: process.env.VITE_API_URL,
